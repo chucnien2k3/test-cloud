@@ -1,0 +1,9 @@
+/* App.css */
+.sidebar-link:hover {
+  background-color: #495057;
+  transition: background-color 0.3s;
+}
+
+.sidebar-link.active {
+  background-color: #007bff;
+}
