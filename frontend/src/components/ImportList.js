@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+    ? '' // Relative URL cho Render
+    : 'http://localhost:5000';
+
 const ImportList = () => {
     const [imports, setImports] = useState([]);
     const [newImport, setNewImport] = useState({ product_id: '', warehouse_id: '', quantity: '' });
@@ -19,7 +23,7 @@ const ImportList = () => {
     const fetchImports = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.get('http://localhost:5000/api/imports', {
+            const res = await axios.get(`${API_BASE_URL}/api/imports`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setImports(Array.isArray(res.data) ? res.data : []);
@@ -31,7 +35,7 @@ const ImportList = () => {
     const fetchProducts = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.get('http://localhost:5000/api/products', {
+            const res = await axios.get(`${API_BASE_URL}/api/products`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setProducts(Array.isArray(res.data) ? res.data : []);
@@ -43,7 +47,7 @@ const ImportList = () => {
     const fetchWarehouses = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.get('http://localhost:5000/api/warehouses', {
+            const res = await axios.get(`${API_BASE_URL}/api/warehouses`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setWarehouses(Array.isArray(res.data) ? res.data : []);
@@ -77,7 +81,7 @@ const ImportList = () => {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.post('http://localhost:5000/api/imports', importData, {
+            await axios.post(`${API_BASE_URL}/api/imports`, importData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchImports();
@@ -113,7 +117,7 @@ const ImportList = () => {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.put(`http://localhost:5000/api/imports/${editImport.import_id}`, importData, {
+            await axios.put(`${API_BASE_URL}/api/imports/${editImport.import_id}`, importData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchImports();
@@ -129,7 +133,7 @@ const ImportList = () => {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:5000/api/imports/${id}`, {
+            await axios.delete(`${API_BASE_URL}/api/imports/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchImports();

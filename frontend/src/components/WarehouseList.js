@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+    ? '' // Relative URL cho Render
+    : 'http://localhost:5000';
+
 const WarehouseList = () => {
     const [warehouses, setWarehouses] = useState([]);
     const [newWarehouse, setNewWarehouse] = useState({ name: '', location: '', capacity: '' });
@@ -15,7 +19,7 @@ const WarehouseList = () => {
     const fetchWarehouses = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.get('http://localhost:5000/api/warehouses', {
+            const res = await axios.get(`${API_BASE_URL}/api/warehouses`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setWarehouses(Array.isArray(res.data) ? res.data : []);
@@ -38,7 +42,7 @@ const WarehouseList = () => {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.post('http://localhost:5000/api/warehouses', warehouseData, {
+            await axios.post(`${API_BASE_URL}/api/warehouses`, warehouseData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchWarehouses();
@@ -63,7 +67,7 @@ const WarehouseList = () => {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.put(`http://localhost:5000/api/warehouses/${editWarehouse.warehouse_id}`, warehouseData, {
+            await axios.put(`${API_BASE_URL}/api/warehouses/${editWarehouse.warehouse_id}`, warehouseData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchWarehouses();
@@ -79,7 +83,7 @@ const WarehouseList = () => {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:5000/api/warehouses/${id}`, {
+            await axios.delete(`${API_BASE_URL}/api/warehouses/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchWarehouses();
