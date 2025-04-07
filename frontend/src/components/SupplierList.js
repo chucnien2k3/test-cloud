@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+    ? '' // Relative URL cho Render
+    : 'http://localhost:5000';
+
 const SupplierList = () => {
     const [suppliers, setSuppliers] = useState([]);
     const [newSupplier, setNewSupplier] = useState({ name: '', contact_info: '', address: '' });
@@ -15,7 +19,7 @@ const SupplierList = () => {
     const fetchSuppliers = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.get('http://localhost:5000/api/suppliers', {
+            const res = await axios.get(`${API_BASE_URL}/api/suppliers`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setSuppliers(Array.isArray(res.data) ? res.data : []);
@@ -38,7 +42,7 @@ const SupplierList = () => {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.post('http://localhost:5000/api/suppliers', supplierData, {
+            await axios.post(`${API_BASE_URL}/api/suppliers`, supplierData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchSuppliers();
@@ -63,7 +67,7 @@ const SupplierList = () => {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.put(`http://localhost:5000/api/suppliers/${editSupplier.supplier_id}`, supplierData, {
+            await axios.put(`${API_BASE_URL}/api/suppliers/${editSupplier.supplier_id}`, supplierData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchSuppliers();
@@ -79,7 +83,7 @@ const SupplierList = () => {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:5000/api/suppliers/${id}`, {
+            await axios.delete(`${API_BASE_URL}/api/suppliers/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchSuppliers();
