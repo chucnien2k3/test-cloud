@@ -60,6 +60,8 @@ app.use('/api/suppliers', authenticateToken, supplierRoutes);
 app.use('/api/imports', authenticateToken, importRoutes);
 app.use('/api/exports', authenticateToken, exportRoutes);
 app.use('/api/warehouses', authenticateToken, warehouseRoutes);
+app.use('/api/imports', authenticateToken, importRoutes);
+app.use('/api/exports', authenticateToken, exportRoutes);
 
 // Định tuyến tất cả request không phải API về index.html
 app.get('*', (req, res) => {
